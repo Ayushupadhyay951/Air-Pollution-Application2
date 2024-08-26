@@ -67,17 +67,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation ("androidx.compose.ui:ui:1.6.8")
-    implementation ("androidx.compose.material:material:1.6.8")
-    implementation ("androidx.compose.ui:ui-tooling-preview:1.5.0")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.7.2")
-
-
-    // Retrofit for network calls
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
-
-    // Coroutines for background tasks
-    implementation (libs.kotlinx.coroutines.core)
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0") // main library
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0") // converts json to string
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0") // converts json to kotlin
 }
