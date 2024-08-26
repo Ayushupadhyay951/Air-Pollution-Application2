@@ -1,21 +1,49 @@
-package com.example.airpollutionapplication.Screens
+package com.example.airpollutionapp.ui.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+
+import com.example.airpollutionapplication.Network.AirPollutionResponse
+import com.example.airpollutionapplication.Network.WeatherApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class AirPollutionViewModel : ViewModel() {
-    private val apiService = NetworkModule.apiService
+enum class Status {
+    LOADING,
+    SUCCESS,
+    ERROR
+}
 
-    var airPollutionData: AirPollutionResponse? = null
-        private set
+data class WeatherState(
+    val result: AirPollutionResponse = AirPollutionResponse(),
+    val status: Status = Status.LOADING,
+    val error: String = "",
+)
 
-    fun fetchAirPollutionData(latitude: Double, longitude: Double, apiKey: String) {
+class AirViewModel() : ViewModel() {
+
+    private val _state = MutableStateFlow(WeatherState())
+    val state = _state.asStateFlow()
+
+    init {
+        getWeatherData()
+    }
+
+    private fun getWeatherData() {
         viewModelScope.launch {
             try {
-                airPollutionData = apiService.getAirPollution(latitude, longitude, apiKey)
+                val result = WeatherApi.retrofitService.getWeather(
+                    lat = 26.50,
+                    lon = 80.80,
+                    apiKey = "a7cd198c020bb86e19ee90789e199908"
+                )
+                _state.update { it.copy(result = result, status = Status.SUCCESS) }
             } catch (e: Exception) {
-                // Handle the error
+                _state.update {
+                    it.copy(status = Status.ERROR, error = e.message?:"Something went wrong")
+                }
             }
         }
     }

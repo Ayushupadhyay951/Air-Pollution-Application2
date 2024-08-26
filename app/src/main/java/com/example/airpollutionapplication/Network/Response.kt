@@ -3,7 +3,7 @@ package com.example.airpollutionapplication.Network
 import com.google.gson.annotations.SerializedName
 
 
-data class AirPollution (
+data class AirPollutionResponse (
 
     @SerializedName("coord" ) var coord : ArrayList<Int>  = arrayListOf(),
     @SerializedName("list"  ) var list  : ArrayList<List> = arrayListOf()
